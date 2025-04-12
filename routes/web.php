@@ -2,6 +2,13 @@
 
 use Illuminate\Support\Facades\Route;
 
+use App\Http\Controllers\Admin\PesertaController;
+use App\Http\Controllers\Admin\PembayaranController;
+use App\Http\Controllers\Admin\KategoriController;
+use App\Http\Controllers\Admin\EventController;
+use App\Http\Controllers\Admin\LoginController;
+use App\Http\Controllers\Admin\DashboardController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -13,7 +20,33 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::redirect('/', '/dashboard-general-dashboard');
+// Route::redirect('/', '/dashboard-general-dashboard');
+
+Route::get('/peserta', [PesertaController::class, 'index'])->name('peserta.index');
+Route::get('/peserta/create', [PesertaController::class, 'create'])->name('peserta.create');
+
+Route::get('/event', [EventController::class, 'index'])->name('event.index');
+Route::get('/event/create', [EventController::class, 'create'])->name('event.create');
+
+Route::get('/kategori_event', [KategoriController::class, 'index'])->name('kategori_event.index');
+Route::get('/kategori_event/create', [KategoriController::class, 'create'])->name('kategori_event.create');
+
+Route::get('/pembayaran', [PembayaranController::class, 'index'])->name('pembayaran.index');
+
+Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
+
+Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login.form');
+Route::post('/login', [LoginController::class, 'login'])->name('login');
+Route::post('/logout', [LoginController::class, 'logout'])->name('logout')->middleware('login');
+
+Route::get('/index', function () {
+    return view('admin.index'); // Ganti dengan tampilan dashboard
+})->middleware('login');
+// Route::get('/pembayaran/create', [PembayaranController::class, 'create'])->name('pembayaran.create');
+
+// Route::get('/pembayaran', function () {
+//     return view('pages.blank-page', ['type_menu' => '']);
+// });
 
 // Dashboard
 Route::get('/dashboard-general-dashboard', function () {

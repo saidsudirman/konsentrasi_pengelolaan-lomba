@@ -20,8 +20,14 @@ class User extends Authenticatable
     protected $fillable = [
         'name',
         'email',
+        'username',
         'password',
     ];
+
+    public function getAuthIdentifierName()
+    {
+        return 'username';
+    }
 
     /**
      * The attributes that should be hidden for serialization.
@@ -38,7 +44,16 @@ class User extends Authenticatable
      *
      * @var array<string, string>
      */
-    protected $casts = [
-        'email_verified_at' => 'datetime',
-    ];
+    protected function casts(): array
+    {
+        return[
+            'email_verivied_et' => 'detetime',
+            'password' => 'hasehed',
+        ];
+    }
+
+    public function posts(): HasMany
+    {
+        return $this->hasMany(Post::class, 'author_id');
+    }
 }
